@@ -1,28 +1,26 @@
 import { AgentContext, AgentResponse } from './types';
 
-// Agent 1: The Historian
-// Responsibility: Long-term memory, summarization, providing context.
-
 export async function runHistorian(context: AgentContext): Promise<AgentResponse> {
-    console.log("📚 Historian: Retrieving medical history...");
+    console.log("📚 Historian: Analyzing longitudinal records...");
 
-    // In a real app, this would query the DB for past sessions and summaries.
-    // Simulating a history retrieval.
-    const historySummary = `
-    - Patient Name: [User Name]
-    - Age: 34
-    - Established Care: 2024
-    - Chronic Conditions: None known.
-    - Allergies: Penicillin (Mild rash).
-    - Past Visits:
-        - Jan 2025: Treated for acute bronchitis. Prescribed Albuterol inhaler.
-        - Dec 2025: Routine checkup. BP 120/80.
-    `;
+    // Mock accessing a database of past history
+    // In a real scenario, this would vector search the user's past medical docs.
+
+    // Simulating finding a condition
+    const foundConditions = ["seasonal allergies", "mild asthma"];
+    const foundMeds = ["albuterol inhaler"];
+
+    // Check for "contextual risks" based on current symptoms (mock logic)
+    // e.g. if user said "breathing" and has "asthma"
+    const relevantHistory = foundConditions.join(", ");
 
     return {
         agent: 'historian',
-        text: "History retrieved.",
-        handoverData: { historySummary },
-        statusMessage: "Consulting medical history..."
+        text: "I've reviewed your medical history. I see a history of " + relevantHistory + ". I'm flagging this context for the doctor to ensure your current symptoms aren't an exacerbation of these conditions.",
+        statusMessage: "History Analyzed. Risks Flagged.",
+        handoverData: {
+            historySummary: `Patient has ${relevantHistory}. Current meds: ${foundMeds.join(", ")}.`
+        },
+        isComplete: true
     };
 }
